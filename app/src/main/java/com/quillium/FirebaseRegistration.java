@@ -120,11 +120,10 @@ public class FirebaseRegistration extends AppCompatActivity {
                         databaseReference.child(userId).setValue(user);
                     }
 
-//<<<<<<< HEAD
 //                    Toast.makeText(FirebaseRegistration.this, "Registration successful", Toast.LENGTH_SHORT).show();
-//=======
+
                     Toast.makeText(FirebaseRegistration.this, "Registration is successful", Toast.LENGTH_SHORT).show();
-//>>>>>>> 2e7cf82b5111e7bd9cdc4ef8bae1ff1611c3ca0f
+
                     // Add your logic to navigate to the next activity or perform other actions
 
                     registerButton.setVisibility(View.VISIBLE);
