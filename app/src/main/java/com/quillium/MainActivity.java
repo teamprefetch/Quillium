@@ -1,11 +1,9 @@
 package com.quillium;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,19 +14,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.quillium.databinding.MainBinding;
-
-import java.util.HashMap;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.quillium.utils.Constants;
+import com.quillium.utils.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
+    private PreferenceManager preferenceManager;
 
 
     // SharedPreferences key constants
@@ -45,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.student_email);
         passwordEditText = findViewById(R.id.password_id);
         loginButton = findViewById(R.id.button_login);
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
 
         // open register activity
@@ -89,17 +90,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                addDataToFirestore();
-
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
                 if (!email.isEmpty() && !password.isEmpty()) {
                     // Save login information
-                    saveLoginInfo(email, password);
+//                    saveLoginInfo(email, password);
 
                     // Login user
                     loginUser(email, password);
+
+                    addDataToFirestore(email, password);
                 } else {
                     Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 }
@@ -123,8 +124,13 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Login successful
                     Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+
                     // Add your logic to navigate to the next activity or perform other actions
-                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+//                    Intent intent = new Intent(MainActivity.this, HomePage.class);
+//                    startActivity(intent);
+//                    finish();
+                    Intent intent = new Intent(getApplicationContext(), HomePage.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 } else {
@@ -135,18 +141,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addDataToFirestore(){
+    private void addDataToFirestore(String email, String password){
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("FirstName", "Waliul");
-        data.put("LastName", "Islam");
-        firestore.collection("users")
-                .add(data)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
-                })
-                .addOnFailureListener(exception -> {
-                    Toast.makeText(MainActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+        firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo(Constants.KEY_EMAIL, email)
+                .whereEqualTo(Constants.KEY_PASSWORD, password)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && task.getResult() !=null && task.getResult().getDocuments().size()>0){
+                            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                            preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
+                            preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
+//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            startActivity(intent);
+//                            finish();
+                            Toast.makeText(MainActivity.this, "Token User Id: "+documentSnapshot.getId(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
                 });
     }
 }

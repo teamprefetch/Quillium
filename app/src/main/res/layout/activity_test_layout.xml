@@ -7,136 +7,60 @@
     android:background="@mipmap/app_bg"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/close_button_create_posst"
-        android:layout_width="35dp"
-        android:layout_height="33dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/messageImageViewID"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/close"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/sf_pro_bold"
-        android:text="Create Post"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/postButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/lavender"
-        android:text="Post"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/ash"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postButton" />
-
-    <!-- User Image -->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profilePicture"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/man"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="3dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/create_post_fullName"
+        android:id="@+id/chatsTextID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/profilePicture"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toTopOf="@+id/profilePicture" />
-
-    <!-- What's on your mind? -->
-    <EditText
-        android:id="@+id/whatsOnYourMind"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profilePicture"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/sf_pro_regular"
-        android:hint="What's on your mind?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+        android:layout_toRightOf="@+id/messageImageViewID"
+        android:fontFamily="@font/sf_pro_bold"
+        android:text="Chats"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/messageImageViewID"
+        app:layout_constraintStart_toEndOf="@+id/messageImageViewID"
+        app:layout_constraintTop_toTopOf="@+id/messageImageViewID" />
 
-    <LinearLayout
-        android:id="@+id/craetepost_upload_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/whatsOnYourMind"
-        android:layout_marginStart="16dp"
+    <ImageView
+        android:id="@+id/editIconID"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        android:src="@drawable/edit_fill"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/whatsOnYourMind">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Photo or Video -->
-        <ImageView
-            android:id="@+id/upload_photo"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/baseline_photo_library_24" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/sf_pro_regular"
-            android:text="Photo/video"
-            android:textSize="18dp" />
-
-
-    </LinearLayout>
-
-    <!-- Post Photo -->
     <ImageView
-        android:id="@+id/create_post_PostPhoto"
+        android:id="@+id/cameraIconID"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/add_a_photo_fill"
+        app:layout_constraintBottom_toBottomOf="@+id/editIconID"
+        app:layout_constraintEnd_toStartOf="@+id/editIconID"
+        app:layout_constraintTop_toTopOf="@+id/editIconID" />
+
+    <View
+        android:id="@+id/view6"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_below="@id/craetepost_upload_photo"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/world"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/craetepost_upload_photo" />
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="#000000"
+        app:layout_constraintTop_toBottomOf="@+id/messageImageViewID" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

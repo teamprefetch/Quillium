@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.quillium.utils.Constants;
+import com.quillium.utils.PreferenceManager;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class FirebaseRegistration extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     CircularProgressIndicator circularLoading;
+    private PreferenceManager preferenceManager;
 
 
     @Override
@@ -54,6 +56,8 @@ public class FirebaseRegistration extends AppCompatActivity {
         firebaseLogin = findViewById(R.id.textView_login_firebase);
 
 
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         dobEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +93,9 @@ public class FirebaseRegistration extends AppCompatActivity {
 //                String dob = openDatePicker();
 
                 if (!email.isEmpty() && !fullname.isEmpty() && !selectedDate.isEmpty() && !password.isEmpty()) {
+
                     registerUser(email, password, fullname, selectedDate);
+
                     addUserRegisterToFirestore(email, password, fullname);
                 } else {
                     registerButton.setVisibility(View.VISIBLE);
@@ -105,8 +111,8 @@ public class FirebaseRegistration extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
-                    Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
+//                    startActivity(intent);
 
                     // Registration successful
                     databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
@@ -194,6 +200,12 @@ public class FirebaseRegistration extends AppCompatActivity {
         firestore.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                    preferenceManager.putString(Constants.KEY_NAME, fullname);
+                    Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                     Toast.makeText(FirebaseRegistration.this, "Data Inserted to Firestore", Toast.LENGTH_LONG).show();
                 })
                 .addOnFailureListener(exception -> {

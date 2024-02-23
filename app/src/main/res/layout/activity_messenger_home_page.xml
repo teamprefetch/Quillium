@@ -1,327 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentLayoutID"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/app_bg"
-    android:id="@+id/parentLayoutID"
+    android:background="@color/ash"
     tools:context=".MessengerHomePage">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/messageImageViewID"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/man"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/chatsTextID"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_toRightOf="@+id/messageImageViewID"
+        android:fontFamily="@font/sf_pro_bold"
+        android:text="Chats"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/messageImageViewID"
+        app:layout_constraintStart_toEndOf="@+id/messageImageViewID"
+        app:layout_constraintTop_toTopOf="@+id/messageImageViewID" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="match_parent"
-            tools:context=".MessengerHomePage">
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:elevation="10dp">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:orientation="horizontal"
-                        android:elevation="10dp"
-                        android:layout_height="match_parent">
-                        <RelativeLayout
-                            android:id="@+id/leftRelativeLayoutID"
-                            android:layout_width="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/editIconID"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/edit_fill"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/messageImageViewID"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/man" />
-
-                            <TextView
-                                android:id="@+id/chatsTextID"
-                                android:layout_toRightOf="@+id/messageImageViewID"
-                                android:fontFamily="@font/sf_pro_bold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Chats"
-                                android:layout_centerVertical="true"
-                                android:textColor="@color/black"
-                                android:layout_gravity="center_vertical"
-                                android:textSize="20sp"/>
-
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:id="@+id/rightRelativeLayoutID"
-                            android:layout_toRightOf="@+id/leftRelativeLayoutID"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:gravity="end"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            >
-                            <ImageView
-                                android:id="@+id/cameraIconID"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginRight="40dp"
-                                android:src="@drawable/add_a_photo_fill"/>
-                            <ImageView
-                                android:id="@+id/editIconID"
-                                android:layout_toRightOf="@+id/cameraIconID"
-                                android:layout_width="25dp"
-                                android:layout_marginRight="30dp"
-                                android:layout_height="25dp"
-
-                                android:src="@drawable/edit_fill"/>
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </androidx.appcompat.widget.Toolbar>
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <LinearLayout
-                android:layout_below="@+id/appBarLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Post 1 -->
-                <RelativeLayout
-                    android:id="@+id/chatMainLayoutID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <FrameLayout
-                        android:id="@+id/frameLayoutID2"
-                        android:layout_width="60dp"
-                        android:layout_margin="10dp"
-                        android:layout_height="60dp">
-                        <RelativeLayout
-                            android:id="@+id/chatImageRelativeLayoutID2"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:padding="7dp"
-                            android:background="@drawable/custom_image_border">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/chatImageID"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:elevation="10dp"
-                                android:src="@drawable/man"
-                                android:layout_centerVertical="true"
-                                />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginHorizontal="38dp"
-                            android:layout_marginVertical="50dp"
-                            android:background="@drawable/chat_inactive_back"/>
-                    </FrameLayout>
+    <ImageView
+        android:id="@+id/cameraIconID"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/add_a_photo_fill"
+        app:layout_constraintBottom_toBottomOf="@+id/editIconID"
+        app:layout_constraintEnd_toStartOf="@+id/editIconID"
+        app:layout_constraintTop_toTopOf="@+id/editIconID" />
 
 
-                    <RelativeLayout
-                        android:id="@+id/chatDetailsRelativeLayoutID"
-                        android:layout_toRightOf="@+id/frameLayoutID2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="5dp">
-                        <com.codesgood.views.JustifiedTextView
-                            android:id="@+id/chatNameID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/sf_pro_bold"
-                            android:text="Asifuzzaman Asif"
-                            android:textSize="16sp"
-                            android:textColor="@color/black" />
-
-                        <com.codesgood.views.JustifiedTextView
-                            android:id="@+id/chatmessageID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/sf_pro_regular"
-                            android:layout_below="@+id/chatNameID"
-                            android:text="Hey. What's up! All good?"
-                            android:textColor="@color/black"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/chatMainLayoutID3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <FrameLayout
-                        android:id="@+id/frameLayoutID3"
-                        android:layout_width="60dp"
-                        android:layout_margin="10dp"
-                        android:layout_height="60dp">
-                        <RelativeLayout
-                            android:id="@+id/chatImageRelativeLayoutID3"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:padding="7dp"
-                            android:background="@drawable/custom_image_border">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/chatImageI3"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:elevation="10dp"
-                                android:src="@drawable/man"
-                                android:layout_centerVertical="true"
-                                />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginHorizontal="38dp"
-                            android:layout_marginVertical="50dp"
-                            android:background="@drawable/chat_inactive_back"/>
-                    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/background_content_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/messageImageViewID">
 
 
-                    <RelativeLayout
-                        android:id="@+id/chatDetailsRelativeLayoutID3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_toRightOf="@+id/frameLayoutID3">
+    </FrameLayout>
 
-                        <com.codesgood.views.JustifiedTextView
-                            android:id="@+id/chatNameID3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/sf_pro_bold"
-                            android:text="Md. Sakibul Islam"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <com.codesgood.views.JustifiedTextView
-                            android:id="@+id/chatmessageID3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/sf_pro_regular"
-                            android:layout_below="@+id/chatNameID3"
-                            android:text="Okay. See you tomorrow."
-                            android:textColor="@color/black"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/chatMainLayoutID4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <FrameLayout
-                        android:id="@+id/frameLayoutID4"
-                        android:layout_width="60dp"
-                        android:layout_margin="10dp"
-                        android:layout_height="60dp">
-                        <RelativeLayout
-                            android:id="@+id/chatImageRelativeLayoutID4"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:padding="7dp"
-                            android:background="@drawable/custom_image_border">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/chatImageID4"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:elevation="10dp"
-                                android:src="@drawable/man"
-                                android:layout_centerVertical="true"
-                                />
-                        </RelativeLayout>
-                        <RelativeLayout
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_marginHorizontal="38dp"
-                            android:layout_marginVertical="50dp"
-                            android:background="@drawable/chat_inactive_back"/>
-                    </FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNewChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_24sdp"
+        android:layout_marginBottom="@dimen/_24sdp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/round_add_24"
+        android:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:tint="@color/white"/>
 
 
-                    <RelativeLayout
-                        android:id="@+id/chatDetailsRelativeLayoutID4"
-                        android:layout_toRightOf="@+id/frameLayoutID4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="5dp">
-                        <com.codesgood.views.JustifiedTextView
-                            android:id="@+id/chatNameID4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Md. Fahim Hasan"
-                            android:fontFamily="@font/sf_pro_bold"
-                            android:textSize="16sp"
-                            android:textColor="@color/black" />
-
-                        <com.codesgood.views.JustifiedTextView
-                            android:id="@+id/chatmessageID4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/chatNameID4"
-                            android:fontFamily="@font/sf_pro_regular"
-                            android:text="I'm coming Dhaka tomorrow."
-                            android:textColor="@color/black"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-
-            <FrameLayout
-                android:id="@+id/frameLayoutID"
-                android:layout_above="@+id/bottomNavigationViewID"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationViewID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:menu="@menu/bottom_navigation_menu"
-                app:itemTextColor="@color/black"
-                app:itemIconTint="@color/black"
-                app:labelVisibilityMode="labeled"
-                android:clickable="true"
-                android:focusable="true"
-                android:elevation="15dp"
-                android:layout_alignParentBottom="true"/>
-        </RelativeLayout>
-
-
-
-    </LinearLayout>
-
-
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

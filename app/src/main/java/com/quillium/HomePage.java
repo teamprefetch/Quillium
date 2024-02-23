@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -40,11 +42,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.quillium.Fragment.FriendFragment;
 import com.quillium.Fragment.HomeFragment;
 import com.quillium.Fragment.NotificationFragment;
 import com.quillium.Fragment.ProfileFragment;
+import com.quillium.utils.Constants;
+import com.quillium.utils.PreferenceManager;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,6 +67,7 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
     FirebaseAuth auth;
     DatabaseReference userRef;
     CircleImageView profile;
+    private PreferenceManager preferenceManager;
 
 
     @Override
@@ -74,6 +84,8 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 //            actionBar.setHomeAsUpIndicator(R.drawable.baseline_person_outline_24); // This line sets the drawer icon
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //        }
+
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
 
         fab = findViewById(R.id.fab);
@@ -197,14 +209,34 @@ public class HomePage extends AppCompatActivity implements NavigationView.OnNavi
 //            openFragment(new ProfileFragment());
             Toast.makeText(HomePage.this, "About Menu is Clicked", Toast.LENGTH_LONG).show();
         } else if (itemID == R.id.nav_logout) {
-            Toast.makeText(this, "Successfully logged out", Toast.LENGTH_LONG).show();
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+            DocumentReference documentReference = firestore.collection(Constants.KEY_COLLECTION_USERS).document(
+                    preferenceManager.getString(Constants.KEY_USER_ID)
+            );
+            HashMap<String, Object> updates = new HashMap<>();
+            updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+            documentReference.update(updates)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            // FCM token updated successfully
+                            // Now, proceed to logout
+                            auth.signOut();
+                            preferenceManager.clear();
+                            Toast.makeText(getApplicationContext(), "Successfully logged out", Toast.LENGTH_LONG).show();
 
-            auth.signOut();
-
-            // Redirect the user to the login screen or perform any other necessary actions
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish(); // Close the current activity to prevent the user from going back
+                            // Redirect the user to the login screen or perform any other necessary actions
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish(); // Close the current activity to prevent the user from going back
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Failed to update FCM token
+                            Toast.makeText(getApplicationContext(), "Unable to Sign Out.", Toast.LENGTH_LONG).show();
+                        }
+                    });
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
