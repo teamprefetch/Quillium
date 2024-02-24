@@ -2,9 +2,13 @@ package com.quillium.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +26,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,9 +42,16 @@ import com.quillium.Model.Follow;
 import com.quillium.R;
 import com.quillium.User;
 import com.quillium.databinding.FragmentProfileBinding;
+import com.quillium.utils.Constants;
+import com.quillium.utils.PreferenceManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import android.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,8 +67,8 @@ public class ProfileFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Follow> list;
     ProgressDialog dialog;
-
-
+    String encodeImage;
+    private PreferenceManager preferenceManager;
 
 
     private static final int PICK_IMAGE_REQUEST_PROFILE = 1;
@@ -97,6 +112,8 @@ public class ProfileFragment extends Fragment {
         dialog.setCancelable(false);
 
         list = new ArrayList<>();
+
+        preferenceManager = new PreferenceManager(getActivity());
 
 
         FollowersAdapter adapter = new FollowersAdapter(list,getContext());
@@ -165,6 +182,7 @@ public class ProfileFragment extends Fragment {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                pickImage.;
                 openGalleryForProfile();
             }
         });
@@ -204,6 +222,54 @@ public class ProfileFragment extends Fragment {
 
                 dialog.show();
 
+//                try {
+//                    InputStream inputStream = getActivity().getContentResolver().openInputStream(imageUri);
+//                    if (inputStream != null) {
+//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                        if (bitmap != null) {
+//                            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+//                            String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+//
+//                            if (currentUserId != null) {
+//                                HashMap<String, Object> updateData = new HashMap<>();
+//                                // Encode the bitmap to a byte array if necessary
+//                                // For now, let's just put the bitmap itself
+//                                updateData.put(Constants.KEY_IMAGE, bitmap);
+//
+//                                firestore.collection(Constants.KEY_COLLECTION_USERS)
+//                                        .document(currentUserId)
+//                                        .update(updateData)
+//                                        .addOnSuccessListener(aVoid -> {
+//                                            // Profile photo uploaded successfully
+//                                            dialog.dismiss(); // dismiss the dialog
+//                                            Toast.makeText(getActivity(), "Profile photo uploaded to Firestore", Toast.LENGTH_SHORT).show();
+//                                        })
+//                                        .addOnFailureListener(e -> {
+//                                            // Handle failure
+//                                            dialog.dismiss(); // dismiss the dialog
+//                                            Toast.makeText(getActivity(), "Failed to upload profile photo to Firestore", Toast.LENGTH_SHORT).show();
+//                                        });
+//                            } else {
+//                                // Handle case where current user ID is null
+//                                dialog.dismiss(); // dismiss the dialog
+//                                Toast.makeText(getActivity(), "User ID not found", Toast.LENGTH_SHORT).show();
+//                            }
+//                        } else {
+//                            // Bitmap is null, handle accordingly
+//                            dialog.dismiss(); // dismiss the dialog
+//                            Toast.makeText(getActivity(), "Failed to decode bitmap", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        // InputStream is null, handle accordingly
+//                        dialog.dismiss(); // dismiss the dialog
+//                        Toast.makeText(getActivity(), "Failed to open input stream", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                    dialog.dismiss();
+//                    Toast.makeText(getActivity(), "Failed to open image", Toast.LENGTH_SHORT).show();
+//                }
+
                 // Upload the profile photo to Firebase if needed
                  uploadProfilePhotoToFirebase();
             } else if (requestCode == PICK_IMAGE_REQUEST_COVER) {
@@ -217,6 +283,97 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+
+//    private void uploadProfilePhotoToFirestore(Uri profilePhotoUri) {
+//        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+//        String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+//
+//        if (currentUserId != null) {
+//            firestore.collection(Constants.KEY_COLLECTION_USERS)
+//                    .document(currentUserId)
+//                    .update(Constants.KEY_IMAGE, profilePhotoUri.toString())
+//                    .addOnSuccessListener(aVoid -> {
+//                        // Profile photo URI updated successfully
+//                        Toast.makeText(getActivity(), "Profile photo uploaded to Firestore", Toast.LENGTH_SHORT).show();
+//                    })
+//                    .addOnFailureListener(e -> {
+//                        // Handle failure
+//                        Toast.makeText(getActivity(), "Failed to upload profile photo to Firestore", Toast.LENGTH_SHORT).show();
+//                    });
+//        } else {
+//            // Handle case where current user ID is null
+//            Toast.makeText(getActivity(), "User ID not found", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
+//    private String encodeImage(Bitmap bitmap) {
+//        int previewWidth = 150;
+//        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+//        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+//        byte[] bytes = byteArrayOutputStream.toByteArray();
+//        return Base64.encodeToString(bytes, Base64.DEFAULT);
+//    }
+//
+//    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            result -> {
+//                if(result.getResultCode() == RESULT_OK){
+//                    if (result.getData() != null){
+//                        Uri imageUri = result.getData().getData();
+//                        try {
+//                            InputStream inputStream = getActivity().getContentResolver().openInputStream(imageUri);
+//                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+////                            binding.imageProfile.setImageBitmap(bitmap);
+//                            encodeImage = encodeImage(bitmap);
+//                        }
+//                        catch (FileNotFoundException e){
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }
+//    );
+
+    private void uploadProfilePhotoToFirestore(Bitmap profilePhotoBitmap) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+
+//        Toast.makeText(getActivity(), "UserId "+currentUserId, Toast.LENGTH_SHORT).show();
+
+        if (currentUserId != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            profilePhotoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imageData = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(imageData, Base64.DEFAULT);
+
+            HashMap<String, Object> updateData = new HashMap<>();
+            updateData.put(Constants.KEY_IMAGE, encodedImage);
+
+            firestore.collection(Constants.KEY_COLLECTION_USERS)
+                    .document(currentUserId)
+                    .update(updateData)
+                    .addOnSuccessListener(aVoid -> {
+                        // Profile photo uploaded successfully
+                        dialog.dismiss(); // dismiss the dialog
+                        Toast.makeText(getActivity(), "Profile photo uploaded to Firestore", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle failure
+                        dialog.dismiss(); // dismiss the dialog
+                        Toast.makeText(getActivity(), "Failed to upload profile photo to Firestore", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // Handle case where current user ID is null
+            dialog.dismiss(); // dismiss the dialog
+            Toast.makeText(getActivity(), "User ID not found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
 
     private void uploadCoverPhotoToFirebase() {
         if (imageUri != null) {

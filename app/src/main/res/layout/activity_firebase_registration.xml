@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/sf_pro_bold"
-            android:text="Firebase Registration on Quillium"
+            android:text="Upload Profile Picture"
             android:textAlignment="center"
             android:textColor="@color/primary"
             android:textSize="22sp"

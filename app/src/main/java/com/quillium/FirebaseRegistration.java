@@ -1,16 +1,24 @@
 package com.quillium;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +33,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.quillium.utils.Constants;
 import com.quillium.utils.PreferenceManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -39,6 +50,8 @@ public class FirebaseRegistration extends AppCompatActivity {
     private DatabaseReference databaseReference;
     CircularProgressIndicator circularLoading;
     private PreferenceManager preferenceManager;
+    ImageView imageView;
+    private String encodedImage;
 
 
     @Override
@@ -54,7 +67,16 @@ public class FirebaseRegistration extends AppCompatActivity {
         passwordEditText = findViewById(R.id.student_password_id);
         registerButton = findViewById(R.id.button_verify_firebase);
         firebaseLogin = findViewById(R.id.textView_login_firebase);
+        imageView = findViewById(R.id.imageView_logo);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                pickImage.launch(intent);
+            }
+        });
 
 
         preferenceManager = new PreferenceManager(getApplicationContext());
@@ -73,7 +95,7 @@ public class FirebaseRegistration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
-                    startActivity(intent);
+                startActivity(intent);
             }
         });
 
@@ -107,7 +129,7 @@ public class FirebaseRegistration extends AppCompatActivity {
     }
 
     private void registerUser(String email, String password, String fullname, String dob) {
-        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener() {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
@@ -191,18 +213,20 @@ public class FirebaseRegistration extends AppCompatActivity {
         return selectedDate;
     }
 
-    private void addUserRegisterToFirestore(String email, String password, String fullname){
+    private void addUserRegisterToFirestore(String email, String password, String fullname) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
         user.put(Constants.KEY_NAME, fullname);
         user.put(Constants.KEY_EMAIL, email);
         user.put(Constants.KEY_PASSWORD, password);
+        user.put(Constants.KEY_IMAGE, encodedImage);
         firestore.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
                     preferenceManager.putString(Constants.KEY_NAME, fullname);
+                    preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
                     Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -212,4 +236,34 @@ public class FirebaseRegistration extends AppCompatActivity {
                     Toast.makeText(FirebaseRegistration.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
+
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        try {
+                            InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            imageView.setImageBitmap(bitmap);
+                            encodedImage = encodeImage(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+    );
+
 }

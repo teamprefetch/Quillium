@@ -3,6 +3,7 @@ package com.quillium;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.quillium.Adapter.UsersAdapter;
+import com.quillium.Listeners.UserListener;
 import com.quillium.Model.User;
 import com.quillium.databinding.ActivityMessengerUsersBinding;
 import com.quillium.utils.Constants;
@@ -20,7 +22,7 @@ import com.quillium.utils.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessengerUsersActivity extends AppCompatActivity {
+public class MessengerUsersActivity extends AppCompatActivity  implements UserListener {
 
     private ActivityMessengerUsersBinding binding;
     private PreferenceManager preferenceManager;
@@ -57,11 +59,13 @@ public class MessengerUsersActivity extends AppCompatActivity {
                                 User user = new User();
                                 user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                                 user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                                 user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.id = queryDocumentSnapshot.getId();
                                 users.add(user);
                             }
                             if (users.size()>0){
-                                UsersAdapter usersAdapter = new UsersAdapter(users);
+                                UsersAdapter usersAdapter = new UsersAdapter(users, MessengerUsersActivity.this);
                                 binding.usersRecyclerView.setAdapter(usersAdapter);
                                 binding.usersRecyclerView.setVisibility(View.VISIBLE);
                             }else {
@@ -84,5 +88,13 @@ public class MessengerUsersActivity extends AppCompatActivity {
         }else{
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+        finish();
     }
 }
