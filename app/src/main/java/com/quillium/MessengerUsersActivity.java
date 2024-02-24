@@ -1,7 +1,6 @@
 package com.quillium;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,7 @@ import com.quillium.utils.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessengerUsersActivity extends AppCompatActivity  implements UserListener {
+public class MessengerUsersActivity extends BaseActivity  implements UserListener {
 
     private ActivityMessengerUsersBinding binding;
     private PreferenceManager preferenceManager;
