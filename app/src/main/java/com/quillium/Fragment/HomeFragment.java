@@ -164,13 +164,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        addStoryImage = view.findViewById(R.id.postImageStores);
-        addStoryImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGalleryForStories();
-            }
-        });
+//        addStoryImage = view.findViewById(R.id.postImageStores);
+//        addStoryImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openGalleryForStories();
+//            }
+//        });
 
         return view;
     }

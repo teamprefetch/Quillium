@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Locale;
 
-public class CreatePassword extends AppCompatActivity {
+public class CreatePasswordActivity extends AppCompatActivity {
     private MaterialTextView resendOtpTimer;
     private int minutes = 1;
     private int seconds = 0;
@@ -26,7 +26,7 @@ public class CreatePassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_password);
+        setContentView(R.layout.activity_create_password);
 
         // Initialize the MaterialTextView for the countdown timer
         resendOtpTimer = findViewById(R.id.resend_otp_timer);
@@ -113,7 +113,7 @@ public class CreatePassword extends AppCompatActivity {
                     @Override
                     public void run() {
                         // Start the next activity (MainActivity) after the initial 1.5-second delay
-                        Intent intent = new Intent(CreatePassword.this, MainActivity.class);
+                        Intent intent = new Intent(CreatePasswordActivity.this, LoginActivity.class);
                         startActivity(intent);
 
                         // After an additional 0.5 seconds, make the "Create Account" button visible again

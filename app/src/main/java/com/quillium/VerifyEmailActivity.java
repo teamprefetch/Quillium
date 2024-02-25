@@ -22,7 +22,7 @@ public class VerifyEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.verify_email);
+        setContentView(R.layout.activity_verify_email);
 
         Intent intent = getIntent();
         if(intent != null) {
@@ -75,7 +75,7 @@ public class VerifyEmailActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         // Start the next activity (VerifyEmailActivity) after the initial 2-second delay
-                        Intent intent = new Intent(VerifyEmailActivity.this, CreatePassword.class);
+                        Intent intent = new Intent(VerifyEmailActivity.this, CreatePasswordActivity.class);
                         startActivity(intent);
 
                         // After an additional 0.2 or 0.3 seconds, make the "Verify" button visible again

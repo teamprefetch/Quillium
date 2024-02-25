@@ -3,8 +3,8 @@ package com.quillium;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,18 +31,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CreatePost extends AppCompatActivity {
+public class CreatePostActivity extends AppCompatActivity {
 
     ImageView postPhotoImageView;
 
-    Button closeButton;
+    AppCompatImageView closeButton;
     TextView Name;
     FirebaseAuth auth;
     DatabaseReference userRef, databaseReference;
@@ -69,13 +68,7 @@ public class CreatePost extends AppCompatActivity {
         postPhotoImageView = findViewById(R.id.create_post_PostPhoto);
         profile = findViewById(R.id.profilePictureCreatePost);
 
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CreatePost.this, HomePage.class);
-                startActivity(intent);
-            }
-        });
+        closeButton.setOnClickListener(v -> onBackPressed());
 
         // Initialize Firebase Auth and Database references
         auth = FirebaseAuth.getInstance();
@@ -156,7 +149,7 @@ public class CreatePost extends AppCompatActivity {
 
             // Show a success message
             Toast.makeText(this, "Post uploaded successfully", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CreatePost.this, HomePage.class);
+            Intent intent = new Intent(CreatePostActivity.this, HomePageActivity.class);
             startActivity(intent);
         } else {
             // Show an error message if the post text is empty

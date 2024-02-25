@@ -5,42 +5,36 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@mipmap/app_bg"
-    tools:context=".MainActivity">
+    android:animateLayoutChanges="true"
+    tools:context=".CreatePostActivity">
 
-    <androidx.appcompat.widget.AppCompatButton
+
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/close_button_create_posst"
-        android:layout_width="35dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/close"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:padding="@dimen/_6sdp"
+        android:src="@drawable/baseline_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black"
+        tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="8dp"
         android:fontFamily="@font/sf_pro_bold"
         android:text="Create Post"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/postButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="35dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:background="@color/lavender"-->
-<!--        android:text="Post"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/close_button_create_posst"
+        app:layout_constraintStart_toEndOf="@+id/close_button_create_posst"
+        app:layout_constraintTop_toTopOf="@id/close_button_create_posst" />
 
     <!-- Edit Profile Button -->
     <Button

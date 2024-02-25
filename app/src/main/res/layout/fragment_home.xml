@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
 
-            <HorizontalScrollView
+            <ScrollView
                 android:id="@+id/horizontalScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,67 +43,67 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="16dp"
-                            app:layout_constraintStart_toEndOf="@+id/postImageStores" />
+                            app:layout_constraintStart_toStartOf="parent" />
 
-                        <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/postImageStores"
-                            android:layout_width="130dp"
-                            android:layout_height="150dp"
-                            android:layout_marginStart="16dp"
-                            android:scaleType="centerCrop"
-                            android:background="@drawable/story_placeholder"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:riv_border_color="#333333"
-                            app:riv_border_width="1dip"
-                            app:riv_corner_radius="10dip"
-                            app:riv_mutate_background="true" />
+                        <!--                        <com.makeramen.roundedimageview.RoundedImageView-->
+                        <!--                            android:id="@+id/postImageStores"-->
+                        <!--                            android:layout_width="130dp"-->
+                        <!--                            android:layout_height="150dp"-->
+                        <!--                            android:layout_marginStart="16dp"-->
+                        <!--                            android:scaleType="centerCrop"-->
+                        <!--                            android:background="@drawable/story_placeholder"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:riv_border_color="#333333"-->
+                        <!--                            app:riv_border_width="1dip"-->
+                        <!--                            app:riv_corner_radius="10dip"-->
+                        <!--                            app:riv_mutate_background="true" />-->
 
-                        <View
-                            android:id="@+id/view"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/postImageStores"
-                            app:layout_constraintEnd_toEndOf="@+id/postImageStores"
-                            app:layout_constraintStart_toStartOf="@+id/postImageStores"
-                            app:layout_constraintTop_toTopOf="@+id/postImageStores" />
+                        <!--                        <View-->
+                        <!--                            android:id="@+id/view"-->
+                        <!--                            android:layout_width="0dp"-->
+                        <!--                            android:layout_height="0dp"-->
+                        <!--                            app:layout_constraintBottom_toBottomOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintStart_toStartOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintTop_toTopOf="@+id/postImageStores" />-->
 
-                        <ImageView
-                            android:id="@+id/imageView22"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/ic_add"
-                            app:layout_constraintBottom_toBottomOf="@+id/postImageStores"
-                            app:layout_constraintEnd_toEndOf="@+id/postImageStores"
-                            app:layout_constraintStart_toStartOf="@+id/postImageStores"
-                            app:layout_constraintTop_toTopOf="@+id/postImageStores"
-                            app:layout_constraintVertical_bias="0.36" />
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imageView22"-->
+                        <!--                            android:layout_width="40dp"-->
+                        <!--                            android:layout_height="40dp"-->
+                        <!--                            android:src="@drawable/ic_add"-->
+                        <!--                            app:layout_constraintBottom_toBottomOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintStart_toStartOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintTop_toTopOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintVertical_bias="0.36" />-->
 
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/sf_pro_bold"
-                            android:text="Create a Story"
-                            android:textColor="#fff"
-                            android:textSize="16sp"
-                            app:layout_constraintEnd_toEndOf="@+id/postImageStores"
-                            app:layout_constraintStart_toStartOf="@+id/postImageStores"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView22" />
+                        <!--                        <TextView-->
+                        <!--                            android:id="@+id/textView"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:fontFamily="@font/sf_pro_bold"-->
+                        <!--                            android:text="Create a Story"-->
+                        <!--                            android:textColor="#fff"-->
+                        <!--                            android:textSize="16sp"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintStart_toStartOf="@+id/postImageStores"-->
+                        <!--                            app:layout_constraintTop_toBottomOf="@+id/imageView22" />-->
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
-            </HorizontalScrollView>
+            </ScrollView>
 
 
             <View
                 android:id="@+id/view4"
                 android:layout_width="wrap_content"
-                android:layout_height="1dp"
+                android:layout_height="12dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/lavender"
+                android:background="@color/ash"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

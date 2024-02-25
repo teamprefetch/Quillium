@@ -39,34 +39,34 @@
         app:layout_constraintStart_toStartOf="@+id/coverPhoto"
         app:layout_constraintTop_toTopOf="@+id/coverPhoto" />
 
-    <ImageView
-        android:id="@+id/changeCoverPhoto"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/add_a_photo"
-        app:layout_constraintBottom_toBottomOf="@+id/coverPhoto"
-        app:layout_constraintEnd_toEndOf="@+id/coverPhoto" />
-
-    <ImageView
-        android:id="@+id/changeProfilePhoto"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/add_a_photo"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_picture_image"
-        app:layout_constraintEnd_toEndOf="@+id/profile_picture_image" />
+    <!--    <ImageView-->
+<!--        android:id="@+id/changeProfilePhoto"-->
+<!--        android:layout_width="25dp"-->
+<!--        android:layout_height="25dp"-->
+<!--        android:src="@drawable/add_a_photo"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/profile_picture_image"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/profile_picture_image" />-->
 
     <!-- Edit Profile Button -->
+<!--    <ImageView-->
+<!--        android:id="@+id/changeCoverPhoto"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginBottom="12dp"-->
+<!--        android:src="@drawable/add_a_photo"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/coverPhoto"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/coverPhoto" />-->
+
     <Button
         android:id="@+id/editProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="#4CAF50"
+        android:backgroundTint="#03A9F4"
         android:fontFamily="@font/sf_pro_bold"
-        android:text="Verified ID"
+        android:text="Update Your Profile"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +104,7 @@
     <TextView
         android:id="@+id/about"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
@@ -118,7 +118,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

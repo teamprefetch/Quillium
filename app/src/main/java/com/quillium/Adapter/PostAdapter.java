@@ -204,6 +204,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder>{
                 Intent intent = new Intent(context, CommentActivity.class);
                 intent.putExtra("postId", model.getPostId());
                 intent.putExtra("postedBy", model.getPostedBy());
+                intent.putExtra("postLike", model.getPostLike());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

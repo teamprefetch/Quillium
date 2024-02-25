@@ -4,12 +4,10 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,28 +19,22 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button date_of_birth;
+    Button date_of_birth, Verify;
+    TextInputEditText studentEmail, HSC;
+    TextView Login;
     DatePickerDialog datePickerDialog;
-
-    //Database Helper
-//    private DbHelper dbHelper = new DbHelper(this);
-
     private String selectedDate = ""; // Define a variable to store the selected date
-    String DOB;
-    String StudentID;
-    String HSCRoll;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register);
+        setContentView(R.layout.activity_register);
 
         date_of_birth = findViewById(R.id.date_of_birth_field);
-        TextInputEditText studentIdEditText = findViewById(R.id.student_id);
-        TextInputEditText studentHscRollEditText = findViewById(R.id.student_hsc_roll);
-        TextView Login = findViewById(R.id.textView_login);
-        Button Verify = findViewById(R.id.button_verify);
+        studentEmail = findViewById(R.id.student_id);
+        HSC = findViewById(R.id.student_hsc_roll);
+        Login = findViewById(R.id.textView_login);
+        Verify = findViewById(R.id.button_verify);
 
 
         Calendar calendar = Calendar.getInstance();
@@ -63,54 +55,52 @@ public class RegisterActivity extends AppCompatActivity {
 //        StudentID = studentIdEditText.getText().toString().trim();
 //        HSCRoll = studentHscRollEditText.getText().toString().trim();
 
-
-        studentIdEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//===============================================================================================================================
+        studentEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     // Set the dynamic hint text inside the EditText when it gains focus
-                    studentIdEditText.setHint("(e.g: B190305001)");
+                    studentEmail.setHint("(e.g: B190305001)");
 
                     // Request focus programmatically to show the keyboard
-                    studentIdEditText.requestFocus();
+                    studentEmail.requestFocus();
 
                     // Show the keyboard
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(studentIdEditText, InputMethodManager.SHOW_IMPLICIT);
+                    imm.showSoftInput(studentEmail, InputMethodManager.SHOW_IMPLICIT);
                 } else {
                     // Clear the hint text when the EditText loses focus
-                    studentIdEditText.setHint("");
+                    studentEmail.setHint("");
                 }
             }
         });
-
-
-        studentHscRollEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        HSC.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     // Set the dynamic hint text inside the EditText when it gains focus
-                    studentHscRollEditText.setHint("(e.g: 123456)");
+                    HSC.setHint("(e.g: 123456)");
 
                     // Request focus programmatically to show the    keyboard
-                    studentHscRollEditText.requestFocus();
+                    HSC.requestFocus();
 
                     // Show the keyboard
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(studentHscRollEditText, InputMethodManager.SHOW_IMPLICIT);
+                    imm.showSoftInput(HSC, InputMethodManager.SHOW_IMPLICIT);
                 } else {
                     // Clear the hint text when the EditText loses focus
-                    studentHscRollEditText.setHint("");
+                    HSC.setHint("");
                 }
             }
         });
-
+        //===============================================================================================================================
 
         // open login activity
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -126,58 +116,29 @@ public class RegisterActivity extends AppCompatActivity {
                 CircularProgressIndicator circularLoading = findViewById(R.id.circularLoading);
                 circularLoading.setVisibility(View.VISIBLE);
 
-//                // Simulate a 1.5-second delay using a Handler
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        // Start the next activity (VerifyEmailActivity) after the initial 1.5-second delay
-//                        Intent intent = new Intent(RegisterActivity.this, VerifyEmailActivity.class);
-//                        startActivity(intent);
-//
-//                        // After an additional 0.5 seconds, make the "Verify" button visible again
-//                        new Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Verify.setVisibility(View.VISIBLE);
-//                                circularLoading.setVisibility(View.INVISIBLE);
-//                            }
-//                        }, 500); // 500 milliseconds = 0.5 seconds
-//                    }
-//                }, 1500); // 1500 milliseconds = 1.5 seconds
+                String email = studentEmail.getText().toString().trim();
+                String roll = HSC.getText().toString().trim();
+                String dob = date_of_birth.getText().toString().trim();
 
-//                StudentID = studentIdEditText.getText().toString().trim();
-//                HSCRoll = studentHscRollEditText.getText().toString().trim();
-//
-//                if(!StudentID.isEmpty() || !HSCRoll.isEmpty() || !selectedDate.isEmpty()){
-//                    long id = dbHelper.insertRegisterData(
-//                            ""+StudentID,
-//                            ""+HSCRoll,
-//                            ""+selectedDate
-//                    );
-//
-//                    //To check insert data successfully, show a toast massege
-//                    Toast.makeText(getApplicationContext(),"Success! ", Toast.LENGTH_LONG).show();
-//
-//                    Verify.setVisibility(View.VISIBLE);
-//                    circularLoading.setVisibility(View.INVISIBLE);
-//
-//                    Intent intent = new Intent(RegisterActivity.this, VerifyEmailActivity.class);
-//                    intent.putExtra("key1", StudentID);
-//                    intent.putExtra("key2", HSCRoll);
-//                    startActivity(intent);
-//                }
-//                else{
-//                    // show toast message
-//                    Toast.makeText(getApplicationContext(),"Nothing to save..", Toast.LENGTH_LONG).show();
-//                    Verify.setVisibility(View.VISIBLE);
-//                    circularLoading.setVisibility(View.INVISIBLE);
-//                }
+                if (!email.isEmpty() && !roll.isEmpty() && !selectedDate.isEmpty()) {
 
-                Intent intent = new Intent(RegisterActivity.this, VerifyEmailActivity.class);
-                startActivity(intent);
+                    verifyEmailActivity(email, roll, selectedDate);
+
+                } else {
+                    Verify.setVisibility(View.VISIBLE);
+                    circularLoading.setVisibility(View.INVISIBLE);
+                    Toast.makeText(RegisterActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+                }
+
+//                Intent intent = new Intent(RegisterActivity.this, VerifyEmailActivity.class);
+//                startActivity(intent);
 
             }
         });
+    }
+
+    private void verifyEmailActivity(String email, String roll, String selectedDate) {
+
     }
 
     // Define the openDatePicker method to open the date picker dialog

@@ -5,13 +5,14 @@
     android:id="@+id/parentLayoutID"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/ash"
-    tools:context=".MessengerHomePage">
+    tools:context=".MessengerHomePageActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/messageImageViewID"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -38,8 +39,8 @@
 
     <ImageView
         android:id="@+id/editIconID"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/edit_fill"
@@ -48,8 +49,8 @@
 
     <ImageView
         android:id="@+id/cameraIconID"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/add_a_photo_fill"
         app:layout_constraintBottom_toBottomOf="@+id/editIconID"
@@ -60,7 +61,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/background_content_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/messageImageViewID">
@@ -74,14 +75,15 @@
             android:overScrollMode="never"
             android:paddingBottom="@dimen/_20sdp"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
 
     </FrameLayout>

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MessengerHomePage extends BaseActivity implements ConversionListener {
+public class MessengerHomePageActivity extends BaseActivity implements ConversionListener {
 
     private ActivityMessengerHomePageBinding binding;
     private PreferenceManager preferenceManager;

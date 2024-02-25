@@ -39,7 +39,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class FirebaseRegistration extends AppCompatActivity {
+public class FirebaseRegistrationActivity extends AppCompatActivity {
 
     private EditText emailEditText, nameEditText, passwordEditText;
     private TextView firebaseLogin;
@@ -94,7 +94,7 @@ public class FirebaseRegistration extends AppCompatActivity {
         firebaseLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
+                Intent intent = new Intent(FirebaseRegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -122,7 +122,7 @@ public class FirebaseRegistration extends AppCompatActivity {
                 } else {
                     registerButton.setVisibility(View.VISIBLE);
                     circularLoading.setVisibility(View.INVISIBLE);
-                    Toast.makeText(FirebaseRegistration.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FirebaseRegistrationActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -150,7 +150,7 @@ public class FirebaseRegistration extends AppCompatActivity {
 
 //                    Toast.makeText(FirebaseRegistration.this, "Registration successful", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(FirebaseRegistration.this, "Registration is successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FirebaseRegistrationActivity.this, "Registration is successful", Toast.LENGTH_SHORT).show();
 
                     // Add your logic to navigate to the next activity or perform other actions
 
@@ -187,7 +187,7 @@ public class FirebaseRegistration extends AppCompatActivity {
         int minDay = 1;
 
         datePickerDialog = new DatePickerDialog(
-                FirebaseRegistration.this,
+                FirebaseRegistrationActivity.this,
                 R.style.CustomDatePickerDialogTheme, // Apply the custom theme here
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -223,17 +223,18 @@ public class FirebaseRegistration extends AppCompatActivity {
         firestore.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(getApplicationContext(), "encodedImage is "+encodedImage, Toast.LENGTH_LONG).show();
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
                     preferenceManager.putString(Constants.KEY_NAME, fullname);
                     preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
-                    Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
+                    Intent intent = new Intent(FirebaseRegistrationActivity.this, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    Toast.makeText(FirebaseRegistration.this, "Data Inserted to Firestore", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FirebaseRegistrationActivity.this, "Data Inserted to Firestore", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(exception -> {
-                    Toast.makeText(FirebaseRegistration.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(FirebaseRegistrationActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
 

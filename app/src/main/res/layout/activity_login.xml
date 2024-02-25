@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@mipmap/app_bg"
     android:backgroundTintMode="src_over"
-    tools:context=".MainActivity">
+    android:animateLayoutChanges="true"
+    tools:context=".LoginActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -145,6 +146,16 @@
             app:rippleColor="@color/buttonRipple"
             android:layout_below="@id/password_id_field"
             tools:ignore="VisualLintButtonSize" />
+
+        <ProgressBar
+            android:id="@+id/circularLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_alignTop="@+id/button_login"
+            android:layout_alignBottom="@+id/button_login"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="4dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
