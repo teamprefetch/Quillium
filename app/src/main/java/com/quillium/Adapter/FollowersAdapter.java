@@ -51,6 +51,7 @@ public class FollowersAdapter extends RecyclerView.Adapter<FollowersAdapter.view
 
                         Picasso.get()
                                 .load(user.getProfilePhotoUrl())
+                                .placeholder(R.drawable.man)
                                 .into(holder.binding.profilePictureFollower);
                     }
 

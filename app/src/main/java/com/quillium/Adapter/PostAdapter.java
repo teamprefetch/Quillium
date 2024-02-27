@@ -85,7 +85,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder>{
                                 String profilePhotoUrl = user.getProfilePhotoUrl();
 
                                 holder.binding.userName.setText(user.getFullname());
-                                holder.binding.about.setText(user.getEmail());
+                                holder.binding.about.setText(user.getDepartment());
                                 Picasso.get()
                                         .load(profilePhotoUrl)
                                         .placeholder(R.drawable.man)

@@ -18,11 +18,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/cover_photo_placeholder"
-        app:riv_corner_radius="10dip"
+        android:src="@drawable/cover_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_corner_radius="10dip" />
 
     <!-- User Image -->
     <de.hdodenhof.circleimageview.CircleImageView
@@ -33,30 +33,30 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="100dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/profile_photo_placeholder"
+        android:src="@drawable/profile_photo"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="3dp"
         app:layout_constraintStart_toStartOf="@+id/coverPhoto"
         app:layout_constraintTop_toTopOf="@+id/coverPhoto" />
 
     <!--    <ImageView-->
-<!--        android:id="@+id/changeProfilePhoto"-->
-<!--        android:layout_width="25dp"-->
-<!--        android:layout_height="25dp"-->
-<!--        android:src="@drawable/add_a_photo"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/profile_picture_image"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/profile_picture_image" />-->
+    <!--        android:id="@+id/changeProfilePhoto"-->
+    <!--        android:layout_width="25dp"-->
+    <!--        android:layout_height="25dp"-->
+    <!--        android:src="@drawable/add_a_photo"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/profile_picture_image"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/profile_picture_image" />-->
 
     <!-- Edit Profile Button -->
-<!--    <ImageView-->
-<!--        android:id="@+id/changeCoverPhoto"-->
-<!--        android:layout_width="35dp"-->
-<!--        android:layout_height="35dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:layout_marginBottom="12dp"-->
-<!--        android:src="@drawable/add_a_photo"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/coverPhoto"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/coverPhoto" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/changeCoverPhoto"-->
+    <!--        android:layout_width="35dp"-->
+    <!--        android:layout_height="35dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:layout_marginBottom="12dp"-->
+    <!--        android:src="@drawable/add_a_photo"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/coverPhoto"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/coverPhoto" />-->
 
     <Button
         android:id="@+id/editProfileButton"
@@ -64,9 +64,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="#03A9F4"
+        android:backgroundTint="@color/lavender"
         android:fontFamily="@font/sf_pro_bold"
-        android:text="Update Your Profile"
+        android:text="Edit Profile"
         android:textColor="@android:color/white"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/sf_pro_bold"
-        android:text="Md. Waliul Islam Rayhan"
+        android:text=""
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,12 +93,37 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/username"
         android:layout_marginStart="24dp"
-        android:textColor="@color/lightText"
         android:fontFamily="@font/sf_pro_regular"
-        android:text="waliulrayhan"
+        android:text=""
+        android:textColor="@color/lightText"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <!--    Session-->
+    <TextView
+        android:id="@+id/sessionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userId"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/sf_pro_bold"
+        android:text="Session: "
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userId"/>
+
+    <TextView
+        android:id="@+id/sessionId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userId"
+        android:fontFamily="@font/sf_pro_bold"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sessionText"
+        app:layout_constraintStart_toEndOf="@+id/sessionText"
+        app:layout_constraintTop_toTopOf="@+id/sessionText" />
 
     <!-- About -->
     <TextView
@@ -113,7 +138,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userId" />
+        app:layout_constraintTop_toBottomOf="@+id/sessionText" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -202,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/sf_pro_regular"
-                    android:text="542"
+                    android:text="3"
                     android:textColor="#BB000000"
                     android:textSize="16sp"
                     diagonal:layout_constraintEnd_toEndOf="@+id/textView7"
@@ -241,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/sf_pro_regular"
-                    android:text="150"
+                    android:text="4"
                     android:textColor="#BB000000"
                     android:textSize="16sp"
                     diagonal:layout_constraintEnd_toEndOf="@+id/textView6"
@@ -271,12 +296,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:fontFamily="@font/sf_pro_regular"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:fontFamily="@font/sf_pro_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" >
+        app:layout_constraintTop_toBottomOf="@+id/textView12">
 
     </androidx.recyclerview.widget.RecyclerView>
 

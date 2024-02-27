@@ -31,16 +31,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.quillium.Adapter.PostAdapter;
+import com.quillium.Adapter.RecentConversationsAdapter;
 import com.quillium.Adapter.StoryAdapter;
 import com.quillium.Model.Post;
 import com.quillium.Model.Story;
 import com.quillium.Model.UserStories;
 import com.quillium.R;
+import com.quillium.utils.Constants;
+import com.quillium.utils.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +61,7 @@ public class HomeFragment extends Fragment {
     FirebaseDatabase database;
     FirebaseAuth auth;
     RoundedImageView addStoryImage;
+//    private PreferenceManager preferenceManager;
     private Uri imageUri;
     private static final int PICK_IMAGE_REQUEST_STORIES = 1;
     private static final int PICK_IMAGE_REQUEST_COVER = 2;
@@ -82,6 +89,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+//        preferenceManager = new PreferenceManager(getContext());
+
+//        updateToken();
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -174,6 +184,28 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+//    private void updateToken() {
+//        FirebaseMessaging.getInstance().getToken()
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful() && task.getResult() != null) {
+//                        String token = task.getResult();
+//                        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token);
+//                        String userId = preferenceManager.getString(Constants.KEY_USER_ID);
+//                        if (userId != null) {
+//                            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+//                            DocumentReference documentReference = firestore.collection(Constants.KEY_COLLECTION_USERS).document(userId);
+//                            documentReference.update(Constants.KEY_FCM_TOKEN, token)
+//                                    .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Token Update Successfully for user: " + userId, Toast.LENGTH_SHORT).show())
+//                                    .addOnFailureListener(e -> Toast.makeText(getContext(), "Token Update Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+//                        } else {
+//                            Toast.makeText(getContext(), "User ID is null", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(getContext(), "Failed to get token", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void openGalleryForStories() {
         // Open gallery for Stories photo

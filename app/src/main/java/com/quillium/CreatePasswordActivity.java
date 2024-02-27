@@ -1,140 +1,216 @@
 package com.quillium;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.quillium.utils.Constants;
+import com.quillium.utils.PreferenceManager;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 public class CreatePasswordActivity extends AppCompatActivity {
-    private MaterialTextView resendOtpTimer;
-    private int minutes = 1;
-    private int seconds = 0;
-    private TextInputLayout studentEmailField;
-    private Handler handler;
+    String name, email, id, department;
+    MaterialTextView studentName, studentId, departmentName;
+    private TextInputEditText password, confirmPassword;
+    CircularProgressIndicator circularLoading;
+    MaterialButton createAccount;
+    String pass, confirmPass;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_password);
 
-        // Initialize the MaterialTextView for the countdown timer
-        resendOtpTimer = findViewById(R.id.resend_otp_timer);
-        studentEmailField = findViewById(R.id.student_email_field);
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        // Initialize the Handler
-        handler = new Handler();
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
-        // Start the countdown timer
-        final Runnable countdownRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (minutes >= 0 && seconds >= 0) {
-                    // Update the MaterialTextView with the remaining time
-                    String timerText = String.format(Locale.getDefault(), "%d:%02d", minutes, seconds);
-                    resendOtpTimer.setText(timerText);
+        // Retrieve the data from the intent
+        Intent intent = getIntent();
+        if (intent != null) {
+            name = intent.getStringExtra("fullName1"); // Replace "key" with the same key used in SenderActivity
+            email = intent.getStringExtra("email");
+            id = intent.getStringExtra("id");
+            department = intent.getStringExtra("dept");
+        }
 
-                    // Decrement the timer
-                    if (seconds == 0) {
-                        minutes--;
-                        seconds = 59;
-                    } else {
-                        seconds--;
-                    }
+        studentName = findViewById(R.id.student_name);
+        studentId = findViewById(R.id.student_id_textView);
+        departmentName = findViewById(R.id.department_name);
+        circularLoading = findViewById(R.id.circularLoading);
+        createAccount = findViewById(R.id.button_create_account);
+        password = findViewById(R.id.create_password);
+        confirmPassword = findViewById(R.id.confirm_password);
 
-                    // Delay the update by 1 second (1000 milliseconds)
-                    handler.postDelayed(this, 1000);
-                } else {
-                    // The timer has reached 0:00
-                    // Make textView_resend_otp visible
-                    findViewById(R.id.textView_resend_otp).setVisibility(View.VISIBLE);
-                    // Hide textView_enter_otp_instruction and resend_otp_timer
-                    findViewById(R.id.textView_enter_otp_instruction).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.resend_otp_timer).setVisibility(View.INVISIBLE);
+        studentName.setText(name);
+        studentId.setText(id);
+        departmentName.setText(department);
 
-                    // Update android:layout_below for student_email_field to "textView_resend_otp"
-                    setStudentEmailFieldLayoutBelow(R.id.textView_resend_otp);
-                }
-            }
-        };
 
-        // Start the initial countdown
-        handler.post(countdownRunnable);
-
-        // Add an OnClickListener for the "Resend OTP" TextView
-        TextView resendOtp = findViewById(R.id.textView_resend_otp);
-        resendOtp.setOnClickListener(new View.OnClickListener() {
+        createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Reset the countdown timer values
-                minutes = 1;
-                seconds = 0;
 
-                // Make textView_enter_otp_instruction and resend_otp_timer visible
-                findViewById(R.id.textView_enter_otp_instruction).setVisibility(View.VISIBLE);
-                findViewById(R.id.resend_otp_timer).setVisibility(View.VISIBLE);
-
-                // Make textView_resend_otp invisible
-                findViewById(R.id.textView_resend_otp).setVisibility(View.INVISIBLE);
-
-                // Reset the android:layout_below for student_email_field to "resend_otp_timer"
-                setStudentEmailFieldLayoutBelow(R.id.resend_otp_timer);
-
-                // Restart the countdown timer
-                handler.removeCallbacksAndMessages(null);
-                handler.post(countdownRunnable);
-            }
-        });
-
-        // Rest of your code for the "Create Account" button and progress indicator
-        Button CreateAccount = findViewById(R.id.button_create_account);
-        CreateAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Hide the "Create Account" button
-                CreateAccount.setVisibility(View.INVISIBLE);
-
-                // Show the circular progress indicator
-                CircularProgressIndicator circularLoading = findViewById(R.id.circularLoading);
+                createAccount.setVisibility(View.INVISIBLE);
                 circularLoading.setVisibility(View.VISIBLE);
 
-                // Simulate a 2-second delay using a Handler
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Start the next activity (MainActivity) after the initial 1.5-second delay
-                        Intent intent = new Intent(CreatePasswordActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                pass = password.getText().toString().trim();
+                confirmPass = confirmPassword.getText().toString().trim();
 
-                        // After an additional 0.5 seconds, make the "Create Account" button visible again
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                CreateAccount.setVisibility(View.VISIBLE);
-                                circularLoading.setVisibility(View.INVISIBLE);
-                            }
-                        }, 500); // 500 milliseconds = 0.5 seconds
-                    }
-                }, 1500); // 1500 milliseconds = 1.5 seconds
+                if (pass.isEmpty() || confirmPass.isEmpty()) {
+                    // Show toast message for empty password fields
+                    createAccount.setVisibility(View.VISIBLE);
+                    circularLoading.setVisibility(View.INVISIBLE);
+                    Toast.makeText(CreatePasswordActivity.this, "Please enter both password and confirm password.", Toast.LENGTH_SHORT).show();
+                } else if (!pass.equals(confirmPass)) {
+                    // Show toast message for password mismatch
+                    createAccount.setVisibility(View.VISIBLE);
+                    circularLoading.setVisibility(View.INVISIBLE);
+                    Toast.makeText(CreatePasswordActivity.this, "Passwords did not match. Please Check Again.", Toast.LENGTH_SHORT).show();
+                } else if (pass.length() < 8 || !containsUppercase(pass) || !containsSpecialCharacter(pass)) {
+                    // Show toast message for password not meeting requirements
+                    createAccount.setVisibility(View.VISIBLE);
+                    circularLoading.setVisibility(View.INVISIBLE);
+                    Toast.makeText(CreatePasswordActivity.this, "Please check the password criteria.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // All checks passed, register the user
+                    registerUser(name, email, pass, id, department);
+                }
+
             }
         });
     }
 
-    private void setStudentEmailFieldLayoutBelow(int viewId) {
-        if (studentEmailField.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) studentEmailField.getLayoutParams();
-            params.addRule(RelativeLayout.BELOW, viewId);
-            studentEmailField.setLayoutParams(params);
+    public boolean containsUppercase(String password) {
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsSpecialCharacter(String password) {
+        String specialCharacters = "!@#$%^&*()-+";
+        for (char c : password.toCharArray()) {
+            if (specialCharacters.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addUserRegisterToFirestore(String name, String email, String pass, String id, String department) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        HashMap<String, Object> user = new HashMap<>();
+        user.put(Constants.KEY_NAME, name);
+        user.put(Constants.KEY_EMAIL, email);
+        user.put(Constants.KEY_PASSWORD, pass);
+        user.put(Constants.KEY_STUDENT_ID, id);
+        user.put(Constants.KEY_DEPARTMENT, department);
+        firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .add(user)
+                .addOnSuccessListener(documentReference -> {
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                    preferenceManager.putString(Constants.KEY_NAME, name);
+                    preferenceManager.putString(Constants.KEY_STUDENT_ID, id);
+                    preferenceManager.putString(Constants.KEY_DEPARTMENT, department);
+
+//                    Toast.makeText(CreatePasswordActivity.this, "Data Inserted to Firestore", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(exception -> {
+                    Toast.makeText(CreatePasswordActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void registerUser(String name, String email, String pass, String id, String department) {
+        firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+
+                    firebaseAuth.getCurrentUser().sendEmailVerification()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                    Toast.makeText(CreatePasswordActivity.this, "Account creation successful. Please verify your email first.", Toast.LENGTH_LONG).show();
+
+                                    // Add your logic to navigate to the next activity or perform other actions
+                                    createAccount.setVisibility(View.VISIBLE);
+                                    circularLoading.setVisibility(View.INVISIBLE);
+
+                                    addUserRegisterToFirestore(name, email, pass, id, department);
+                                    dataInsertIntoDatabase();
+                                    Intent intent = new Intent(CreatePasswordActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Sorry! Registration was unsuccessful. Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                } else {
+                    // If registration fails, display a message to the user.
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                        createAccount.setVisibility(View.VISIBLE);
+                        circularLoading.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getApplicationContext(), "User is already registered. Please try with a different email and password.", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        createAccount.setVisibility(View.VISIBLE);
+                        circularLoading.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getApplicationContext(), "Sorry! Registration was unsuccessful. Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }
+
+    void dataInsertIntoDatabase() {
+        // Registration successful
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        User user = new User(name, email, id, department);
+
+        // Save user data to Realtime Database
+        if (!TextUtils.isEmpty(name)) {
+            // Save user data to Realtime Database
+            databaseReference.child(userId).setValue(user);
         }
     }
 }

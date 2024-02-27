@@ -191,7 +191,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> {
                         // Image upload successful
                         Log.d("Upload", "Profile photo uploaded successfully");
-                        Toast.makeText(getApplicationContext(), "successfully", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "successfully", Toast.LENGTH_SHORT).show();
                         // You can add any additional logic here, like refreshing the UI
                     })
                     .addOnFailureListener(e -> {
@@ -233,8 +233,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
         updates.put("profilePhotoUrl", imageUrl);
 
         userRef.updateChildren(updates)
-                .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Profile Photo uploaded successfully", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to upload Profile Photo", Toast.LENGTH_SHORT).show());
+                .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Profile Photo updated successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to update Profile Photo", Toast.LENGTH_SHORT).show());
 
         saveDialog.dismiss();
         Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
@@ -296,11 +296,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
         userRef.updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
                     // Database update successful
-                    Toast.makeText(getApplicationContext(), "Cover Photo uploaded successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Cover Photo updated successfully", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
                     // Handle any errors that occurred during the database update
-                    Toast.makeText(getApplicationContext(), "Failed to upload Cover Photo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed to update Cover Photo", Toast.LENGTH_SHORT).show();
                 });
 
         saveDialog.dismiss();

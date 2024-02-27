@@ -69,6 +69,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                         Picasso.get()
                                 .load(user.getProfilePhotoUrl())
+                                .placeholder(R.drawable.man)
                                 .into(holder.binding.profileImagePicture);
 
                         if (type.equals("like")) {

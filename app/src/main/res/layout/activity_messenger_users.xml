@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#C4E3E0"
+    android:background="@color/lavender"
     tools:context=".MessengerUsersActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -20,14 +20,14 @@
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black"
+        app:tint="@color/white"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select User"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
         android:textStyle="bold"
         android:fontFamily="@font/sf_pro_bold"

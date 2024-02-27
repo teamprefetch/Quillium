@@ -75,7 +75,7 @@
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/primary"
-            app:startIconDrawable="@drawable/round_person_24">
+            app:startIconDrawable="@drawable/round_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/student_email"
@@ -195,19 +195,19 @@
                 android:textColor="@color/primary"
                 android:textSize="18sp" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textView_firebase_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView_register"
-                android:layout_marginStart="2dp"
-                android:fontFamily="@font/sf_pro_bold"
-                android:paddingTop="4dp"
-                android:paddingBottom="32dp"
-                android:text="Firebase Registration"
-                android:textAlignment="center"
-                android:textColor="@color/primary"
-                android:textSize="18sp" />
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/textView_firebase_register"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@id/textView_register"-->
+<!--                android:layout_marginStart="2dp"-->
+<!--                android:fontFamily="@font/sf_pro_bold"-->
+<!--                android:paddingTop="4dp"-->
+<!--                android:paddingBottom="32dp"-->
+<!--                android:text="Firebase Registration"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/primary"-->
+<!--                android:textSize="18sp" />-->
 
         </RelativeLayout>
 

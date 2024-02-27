@@ -52,14 +52,14 @@
             android:layout_below="@id/textView_main_head"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/student_id_field"
+            android:id="@+id/fullNameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_about_reg"
             android:layout_marginStart="12dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="12dp"
-            android:hint="@string/student_id_field"
+            android:hint="Full Name"
             android:textColorHint="@color/primary"
             app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
@@ -82,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_regular"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:paddingStart="52dp"
                 android:paddingEnd="0dp"
                 tools:ignore="VisualLintTextFieldSize" />
@@ -90,14 +90,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/student_hsc_roll_field"
+            android:id="@+id/studentEmailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/student_id_field"
+            android:layout_below="@id/fullNameField"
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
-            android:hint="@string/student_hsc_roll_field"
+            android:hint="Institutional Email"
             android:textColorHint="@color/primary"
             app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
@@ -113,42 +113,20 @@
             app:hintAnimationEnabled="true"
             app:hintEnabled="true"
             app:hintTextColor="@color/primary"
-            app:startIconDrawable="@drawable/round_numbers_24">
+            app:startIconDrawable="@drawable/round_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/student_hsc_roll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_regular"
-                android:inputType="number"
+                android:inputType="textEmailAddress"
                 android:paddingStart="52dp"
                 android:paddingEnd="0dp"
                 tools:ignore="VisualLintTextFieldSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/date_of_birth_field"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_below="@id/student_hsc_roll_field"
-            android:fontFamily="@font/sf_pro_regular"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:gravity="left|center_vertical"
-            android:layout_marginEnd="12dp"
-            android:text="    Date of Birth"
-            android:paddingLeft="16dp"
-            android:textSize="16sp"
-            app:boxStrokeColor="@color/primary"
-            app:cornerRadius="15dp"
-            app:icon="@drawable/round_calendar_month_24"
-            app:iconGravity="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.535"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.571" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_verify"
@@ -160,14 +138,14 @@
             android:layout_marginBottom="8dp"
             android:height="55dp"
             android:fontFamily="@font/sf_pro_bold"
-            android:text="@string/verify_button"
+            android:text="NEXT"
             android:textSize="18sp"
             android:textColor="@color/secondary"
             app:backgroundTint="@color/primary"
             app:cornerRadius="15dp"
             app:rippleColor="@color/buttonRipple"
             android:visibility="visible"
-            android:layout_below="@id/date_of_birth_field"
+            android:layout_below="@id/studentEmailField"
             tools:ignore="VisualLintButtonSize" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -177,8 +155,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/date_of_birth_field"
-            android:visibility="invisible"
+            android:layout_below="@id/studentEmailField"
+            android:visibility="gone"
             android:indeterminate="true" />
 
         <RelativeLayout

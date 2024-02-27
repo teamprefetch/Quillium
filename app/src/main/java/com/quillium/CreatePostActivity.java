@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,6 +46,7 @@ public class CreatePostActivity extends AppCompatActivity {
     TextView Name;
     FirebaseAuth auth;
     DatabaseReference userRef, databaseReference;
+    ProgressDialog postDialog;
 
     private EditText whatsOnYourMindEditText;
     private String name;
@@ -68,6 +70,12 @@ public class CreatePostActivity extends AppCompatActivity {
         postPhotoImageView = findViewById(R.id.create_post_PostPhoto);
         profile = findViewById(R.id.profilePictureCreatePost);
 
+        postDialog = new ProgressDialog(this);
+        postDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        postDialog.setTitle("Uploading Your Post");
+        postDialog.setMessage("Please wait...");
+        postDialog.setCancelable(false);
+
         closeButton.setOnClickListener(v -> onBackPressed());
 
         // Initialize Firebase Auth and Database references
@@ -84,6 +92,7 @@ public class CreatePostActivity extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                postDialog.show();
                 createPost();
             }
         });
@@ -146,14 +155,10 @@ public class CreatePostActivity extends AppCompatActivity {
 
             // Clear the EditText after posting
             whatsOnYourMindEditText.setText("");
-
-            // Show a success message
-            Toast.makeText(this, "Post uploaded successfully", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CreatePostActivity.this, HomePageActivity.class);
-            startActivity(intent);
         } else {
             // Show an error message if the post text is empty
             Toast.makeText(this, "Please enter something to post", Toast.LENGTH_SHORT).show();
+            postDialog.dismiss();
         }
     }
 
@@ -179,6 +184,12 @@ public class CreatePostActivity extends AppCompatActivity {
                 DatabaseReference postRef = databaseReference.child(postId);
                 postRef.child("postImage").setValue(uri.toString());
                 Log.d("CreatePostActivity", "Image is successfully uploaded, URL: " + uri.toString());
+
+                // Show a success message
+                Toast.makeText(this, "Post uploaded successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CreatePostActivity.this, HomePageActivity.class);
+                startActivity(intent);
+                postDialog.dismiss();
             }).addOnFailureListener(e -> {
                 // Handle failure to get download URL
                 Log.e("CreatePostActivity", "Error getting the download URL: " + e.getMessage());
@@ -197,29 +208,6 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
-//        FirebaseUser currentUser = auth.getCurrentUser();
-//        if (currentUser != null) {
-//            String userId = currentUser.getUid();
-//            userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if (dataSnapshot.exists()) {
-//                        // Data exists, retrieve the values
-//                        name = dataSnapshot.child("fullname").getValue(String.class);
-//
-//                        // Update the TextViews with actual data
-//                        Name.setText(name);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                    // Handle error
-//                    Log.e("FirebaseData", "Error Reading User Data: " + databaseError.getMessage());
-//                }
-//            });
-//        }
-
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
@@ -235,6 +223,7 @@ public class CreatePostActivity extends AppCompatActivity {
                         // Load Profile photo using Picasso or any other image loading library
                         Picasso.get()
                                 .load(profilePhotoUrl)
+                                .placeholder(R.drawable.man)
                                 .into(profile);
 
                         String fullname = user.getFullname();

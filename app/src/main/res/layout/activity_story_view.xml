@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:src="@drawable/world"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +26,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/man"
-        app:civ_border_color="#FFFFFF"
         app:civ_border_width="3dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,10 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/sf_pro_regular"
-        android:text="Md. Amin Islam"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/storyPersonProfile"
         app:layout_constraintStart_toEndOf="@+id/storyPersonProfile"
         app:layout_constraintTop_toTopOf="@+id/storyPersonProfile" />
 
@@ -50,13 +48,12 @@
         android:id="@+id/storyPersonEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:fontFamily="@font/sf_pro_regular"
-        android:text="test@gmail.com"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/storyPersonProfile"
-        app:layout_constraintTop_toBottomOf="@+id/storyPersonName" />
+        tools:layout_editor_absoluteX="74dp"
+        tools:layout_editor_absoluteY="48dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPrevious"

@@ -52,10 +52,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
 
         Picasso.get()
                 .load(user.getProfilePhotoUrl())
+                .placeholder(R.drawable.man)
                 .into(holder.binding.profilePictureImage);
 
         holder.binding.textView4.setText(user.getFullname());
-        holder.binding.textView5.setText(user.getEmail());
+        holder.binding.textView5.setText(user.getDepartment());
 
         FirebaseDatabase.getInstance().getReference()
                         .child("users")
@@ -67,7 +68,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                         if (snapshot.exists()){
                             holder.binding.followBtn.setBackgroundDrawable(ContextCompat.getDrawable(context,R.drawable.follow_active_btn));
                             holder.binding.followBtn.setText("Following");
-                            holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.ash));
+                            holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.lavender));
                             holder.binding.followBtn.setEnabled(false);
                         }
                         else {
@@ -76,7 +77,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder>{
                                 public void onClick(View v) {
                                     holder.binding.followBtn.setBackgroundDrawable(ContextCompat.getDrawable(context,R.drawable.follow_active_btn));
                                     holder.binding.followBtn.setText("Following");
-                                    holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.ash));
+                                    holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.lavender));
                                     holder.binding.followBtn.setEnabled(false);
 
                                     Follow follow = new Follow();

@@ -100,78 +100,78 @@ public class FirebaseRegistrationActivity extends AppCompatActivity {
         });
 
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerButton.setVisibility(View.INVISIBLE);
-
-                // Show the circular progress indicator
-                circularLoading = findViewById(R.id.circularLoading);
-                circularLoading.setVisibility(View.VISIBLE);
-
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                String fullname = nameEditText.getText().toString().trim();
-//                String dob = openDatePicker();
-
-                if (!email.isEmpty() && !fullname.isEmpty() && !selectedDate.isEmpty() && !password.isEmpty()) {
-
-                    registerUser(email, password, fullname, selectedDate);
-
-                    addUserRegisterToFirestore(email, password, fullname);
-                } else {
-                    registerButton.setVisibility(View.VISIBLE);
-                    circularLoading.setVisibility(View.INVISIBLE);
-                    Toast.makeText(FirebaseRegistrationActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        registerButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                registerButton.setVisibility(View.INVISIBLE);
+//
+//                // Show the circular progress indicator
+//                circularLoading = findViewById(R.id.circularLoading);
+//                circularLoading.setVisibility(View.VISIBLE);
+//
+//                String email = emailEditText.getText().toString().trim();
+//                String password = passwordEditText.getText().toString().trim();
+//                String fullname = nameEditText.getText().toString().trim();
+////                String dob = openDatePicker();
+//
+//                if (!email.isEmpty() && !fullname.isEmpty() && !selectedDate.isEmpty() && !password.isEmpty()) {
+//
+//                    registerUser(email, password, fullname, selectedDate);
+//
+//                    addUserRegisterToFirestore(email, password, fullname);
+//                } else {
+//                    registerButton.setVisibility(View.VISIBLE);
+//                    circularLoading.setVisibility(View.INVISIBLE);
+//                    Toast.makeText(FirebaseRegistrationActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
     }
 
-    private void registerUser(String email, String password, String fullname, String dob) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isSuccessful()) {
-//                    Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
-//                    startActivity(intent);
-
-                    // Registration successful
-                    databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-
-                    String userId = firebaseAuth.getCurrentUser().getUid();
-                    User user = new User(fullname, email, dob);
-
-                    // Save user data to Realtime Database
-                    if (!TextUtils.isEmpty(fullname)) {
-                        // Save user data to Realtime Database
-                        databaseReference.child(userId).setValue(user);
-                    }
-
-//                    Toast.makeText(FirebaseRegistration.this, "Registration successful", Toast.LENGTH_SHORT).show();
-
-                    Toast.makeText(FirebaseRegistrationActivity.this, "Registration is successful", Toast.LENGTH_SHORT).show();
-
-                    // Add your logic to navigate to the next activity or perform other actions
-
-                    registerButton.setVisibility(View.VISIBLE);
-                    circularLoading.setVisibility(View.INVISIBLE);
-                } else {
-                    // If registration fails, display a message to the user.
-                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                        registerButton.setVisibility(View.VISIBLE);
-                        circularLoading.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getApplicationContext(), "User is already registered. Try with different credentials.", Toast.LENGTH_LONG).show();
-
-                    } else {
-                        registerButton.setVisibility(View.VISIBLE);
-                        circularLoading.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getApplicationContext(), "Sorry! Registration is unsuccessful. Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
-    }
+//    private void registerUser(String email, String password, String fullname, String dob) {
+//        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener() {
+//            @Override
+//            public void onComplete(@NonNull Task task) {
+//                if (task.isSuccessful()) {
+////                    Intent intent = new Intent(FirebaseRegistration.this, MainActivity.class);
+////                    startActivity(intent);
+//
+//                    // Registration successful
+//                    databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
+//
+//                    String userId = firebaseAuth.getCurrentUser().getUid();
+//                    User user = new User(fullname, email, dob);
+//
+//                    // Save user data to Realtime Database
+//                    if (!TextUtils.isEmpty(fullname)) {
+//                        // Save user data to Realtime Database
+//                        databaseReference.child(userId).setValue(user);
+//                    }
+//
+////                    Toast.makeText(FirebaseRegistration.this, "Registration successful", Toast.LENGTH_SHORT).show();
+//
+//                    Toast.makeText(FirebaseRegistrationActivity.this, "Registration is successful", Toast.LENGTH_SHORT).show();
+//
+//                    // Add your logic to navigate to the next activity or perform other actions
+//
+//                    registerButton.setVisibility(View.VISIBLE);
+//                    circularLoading.setVisibility(View.INVISIBLE);
+//                } else {
+//                    // If registration fails, display a message to the user.
+//                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+//                        registerButton.setVisibility(View.VISIBLE);
+//                        circularLoading.setVisibility(View.INVISIBLE);
+//                        Toast.makeText(getApplicationContext(), "User is already registered. Try with different credentials.", Toast.LENGTH_LONG).show();
+//
+//                    } else {
+//                        registerButton.setVisibility(View.VISIBLE);
+//                        circularLoading.setVisibility(View.INVISIBLE);
+//                        Toast.makeText(getApplicationContext(), "Sorry! Registration is unsuccessful. Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            }
+//        });
+//    }
 
 
     // Define the openDatePicker method to open the date picker dialog

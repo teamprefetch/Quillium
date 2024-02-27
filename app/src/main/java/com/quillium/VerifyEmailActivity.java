@@ -24,11 +24,13 @@ public class VerifyEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_email);
 
+        // Retrieve the data from the intent
         Intent intent = getIntent();
-        if(intent != null) {
-            receivedValue1 = intent.getStringExtra("key1");
-            receivedValue2 = intent.getStringExtra("key2");
-            // Use the received values as needed
+        if (intent != null) {
+            String data = intent.getStringExtra("key"); // Replace "key" with the same key used in SenderActivity
+            if (data != null) {
+                // Do something with the received data
+            }
         }
 
         TextView studentId = findViewById(R.id.student_id_textView);

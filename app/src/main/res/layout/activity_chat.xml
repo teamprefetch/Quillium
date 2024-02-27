@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/primary"
+    android:background="@color/lavender"
     tools:context=".ChatActivity">
 
     <View
@@ -22,7 +22,7 @@
         android:id="@+id/headerBackground"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/primary"
+        android:background="@color/lavender"
         app:layout_constraintBottom_toTopOf="@id/viewSupporter"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -61,6 +61,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@color/white"
+        android:fontFamily="@font/sf_pro_bold"
         android:textSize="@dimen/_14ssp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/imageBack"
@@ -84,7 +85,7 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
-        android:padding="@dimen/_20sdp"
+        android:padding="@dimen/_5sdp"
         app:stackFromEnd="true"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -104,8 +105,8 @@
 
     <FrameLayout
         android:id="@+id/layoutSend"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/background_chat_input"
@@ -117,16 +118,16 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_4sdp"
             android:layout_marginLeft="@dimen/_4sdp"
-            android:padding="@dimen/_8sdp"
+            android:padding="@dimen/_6sdp"
             android:src="@drawable/send_24"
-            android:tint="@color/white" />
+            android:tint="@color/lavender" />
 
     </FrameLayout>
 
     <EditText
         android:id="@+id/inputMessage"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_35sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -134,10 +135,12 @@
         android:hint="Type a message..."
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="textMultiLine"
+        android:maxLines="2"
+        android:fontFamily="@font/sf_pro_regular"
         android:paddingStart="@dimen/_16sdp"
         android:paddingEnd="@dimen/_16sdp"
-        android:textColor="@color/white"
+        android:textColor="@color/primary"
         android:textColorHint="@color/ash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/layoutSend"
@@ -150,7 +153,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/viewSupporter"
         android:background="#008000"
-        android:text="Online"
+        android:fontFamily="@font/sf_pro_regular"
+        android:text="Online now"
         android:gravity="center"
         android:textSize="@dimen/_10ssp"
         android:textColor="@color/white"

@@ -57,10 +57,13 @@ import android.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ProfileFragment extends Fragment {
 
     ImageView coverPhoto, cPhoto, profile,profilePhoto;
-    TextView name, id, followCount;
+    TextView name, id, followCount, session;
     Button updateProfile;
     FragmentProfileBinding binding;
     FirebaseStorage storage;
@@ -98,15 +101,14 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        coverPhoto = view.findViewById(R.id.changeCoverPhoto);
         cPhoto = view.findViewById(R.id.coverPhoto);
-        profile = view.findViewById(R.id.changeProfilePhoto);
         profilePhoto = view.findViewById(R.id.profile_picture_image);
         name = view.findViewById(R.id.username);
         id = view.findViewById(R.id.userId);
         recyclerView = view.findViewById(R.id.followersRV);
         followCount = view.findViewById(R.id.followers);
         updateProfile = view.findViewById(R.id.editProfileButton);
+        session = view.findViewById(R.id.sessionId);
 
 //        profileDialog = new ProgressDialog(getActivity());
 //        profileDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -170,23 +172,26 @@ public class ProfileFragment extends Fragment {
                    // Load cover photo using Picasso or any other image loading library
                     Picasso.get()
                             .load(coverPhotoUrl)
-                            .placeholder(R.drawable.cover_photo_placeholder)
+                            .placeholder(R.drawable.cover_photo)
                             .into(cPhoto);
 
                     // Load Profile photo using Picasso or any other image loading library
                     Picasso.get()
                             .load(profilePhotoUrl)
-                            .placeholder(R.drawable.profile_photo_placeholder)
+                            .placeholder(R.drawable.profile_photo)
                             .into(profilePhoto);
 
                     String fullname = user.getFullname();
                     String email = user.getEmail();
                     String follows = String.valueOf(user.getFollowerCount());
 
+                    String sess = extractSessionFromEmail(email);
+
                     // Set the fullname and email to the TextViews
                     name.setText(fullname);
                     id.setText(email);
                     followCount.setText(follows);
+                    session.setText(sess);
                 }
             }
 
@@ -222,6 +227,20 @@ public class ProfileFragment extends Fragment {
 //        });
 
         return view;
+    }
+
+    private String extractSessionFromEmail(String email) {
+        // Define a pattern to extract session from email
+        Pattern pattern = Pattern.compile("b(\\d{2})\\d+@");
+        Matcher matcher = pattern.matcher(email);
+        if (matcher.find()) {
+            String year = matcher.group(1);
+            int startYear = Integer.parseInt("20" + year);
+            int endYear = startYear + 1;
+            return startYear + "-" + String.valueOf(endYear).substring(2);
+        } else {
+            return "Unknown Session";
+        }
     }
 
     private String encodeImage(Bitmap bitmap) {
