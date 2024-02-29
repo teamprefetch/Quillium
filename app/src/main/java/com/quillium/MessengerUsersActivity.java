@@ -43,6 +43,7 @@ public class MessengerUsersActivity extends BaseActivity  implements UserListene
         loading(true);
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo("verify", true) // Filter users where the verify field is true
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -67,15 +68,16 @@ public class MessengerUsersActivity extends BaseActivity  implements UserListene
                                 UsersAdapter usersAdapter = new UsersAdapter(users, MessengerUsersActivity.this);
                                 binding.usersRecyclerView.setAdapter(usersAdapter);
                                 binding.usersRecyclerView.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 showErrorMessage();
                             }
-                        }else {
+                        } else {
                             showErrorMessage();
                         }
                     }
                 });
     }
+
     private void showErrorMessage(){
         binding.textErrorMessage.setText(String.format("%s", "No User Available"));
         binding.textErrorMessage.setVisibility(View.VISIBLE);

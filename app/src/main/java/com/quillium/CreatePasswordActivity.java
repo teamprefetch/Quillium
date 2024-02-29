@@ -136,6 +136,7 @@ public class CreatePasswordActivity extends AppCompatActivity {
         user.put(Constants.KEY_PASSWORD, pass);
         user.put(Constants.KEY_STUDENT_ID, id);
         user.put(Constants.KEY_DEPARTMENT, department);
+        user.put(Constants.KEY_VERIFY, false);
         firestore.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
@@ -144,7 +145,6 @@ public class CreatePasswordActivity extends AppCompatActivity {
                     preferenceManager.putString(Constants.KEY_NAME, name);
                     preferenceManager.putString(Constants.KEY_STUDENT_ID, id);
                     preferenceManager.putString(Constants.KEY_DEPARTMENT, department);
-
 //                    Toast.makeText(CreatePasswordActivity.this, "Data Inserted to Firestore", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(exception -> {

@@ -92,8 +92,14 @@ public class CreatePostActivity extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postDialog.show();
-                createPost();
+                if (imageUri == null) {
+                    // Show a message indicating that no image is selected
+                    Toast.makeText(CreatePostActivity.this, "Please select an image to post", Toast.LENGTH_SHORT).show();
+                } else {
+                    // If an image is selected, proceed with creating the post
+                    postDialog.show();
+                    createPost();
+                }
             }
         });
 

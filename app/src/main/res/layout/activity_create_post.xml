@@ -97,7 +97,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/lightText"
+        android:textColor="@color/black"
         android:background="@android:color/transparent"
         android:fontFamily="@font/sf_pro_regular"
         android:hint="What's on your mind?"

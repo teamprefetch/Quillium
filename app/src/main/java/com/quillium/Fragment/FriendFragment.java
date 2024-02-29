@@ -56,19 +56,30 @@ public class FriendFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     user.setUserId(dataSnapshot.getKey());
-                    list.add(0,user);
+
+                    // Check if the 'verified' field exists and its value is "true"
+                    String verified = dataSnapshot.child("verify").getValue(String.class);
+                    if (verified != null && verified.equals("true")) {
+                        // If verified, add user to the list
+                        list.add(0, user);
+                    } else {
+                        // If not verified, you can choose to skip adding this user to the list
+                        // For now, let's just log a message
+//                        Log.d("UserAdapter", "User is not verified");
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle any errors that may occur
             }
         });
+
 
         return binding.getRoot();
     }

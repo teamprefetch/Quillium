@@ -9,6 +9,7 @@ public class Constants {
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_STUDENT_ID = "studentId";
     public static final String KEY_DEPARTMENT = "department";
+    public static final String KEY_VERIFY = "verify";
     public static final String KEY_PREFERENCE_NAME = "chatAppPreference";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
     public static final String KEY_USER_ID = "userId";
