@@ -3,6 +3,8 @@
   An Intra University Social Media Platform for Android
 </p>
 
+### Scan the QR code below to download Quillium directly to your Android device
+![App Download Link](https://github.com/waliulrayhan/Quillium-Android/assets/84919654/100fe90c-d381-4f2d-81f7-9de52fc66239)
 
 ## About The Project
 
